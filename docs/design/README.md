@@ -15,9 +15,9 @@ entity Query.modified
 entity Access
 
 entity User
+entity User.id
 entity User.login
 entity User.password
-entity User.name
 entity User.email
 
 entity Result
@@ -26,6 +26,7 @@ entity Result.name
 entity Result.description
 
 entity Role
+entity Role.id
 entity Role.name
 entity Role.description
 
