@@ -27,7 +27,7 @@ entity User.email
 User.id -u-* User 
 User.login -u-* User 
 User.password -r-* User 
-User.email --* User 
+User.email -u-* User 
 
 entity Result
 entity Result.id
@@ -52,9 +52,50 @@ entity Source.url
 entity Source.id
 entity Source.key
 
-Source *-- Source.url 
-Source *-- Source.id 
-Source *-- Source.key
+Source.url --* Source
+Source.id --* Source
+Source.key --* Source
+
+entity Scraper
+entity Scraper.type
+entity Scraper.id
+
+Scraper.type --* Scraper
+Scraper.id --* Scraper
+
+entity ScraperInstance
+entity ScraperInstance.id
+entity ScraperInstance.data
+entity ScraperInstance.flag
+
+ScraperInstance.id -l-* ScraperInstance
+ScraperInstance.data --* ScraperInstance
+ScraperInstance.flag --* ScraperInstance
+
+entity Message
+entity Message.id
+entity Message.data
+
+Message.id -r-* Message
+Message.data -l-* Message
+
+entity Metadata
+entity Metadata.id
+entity Metadata.key
+entity Metadata.value
+
+Metadata.id -u-* Metadata
+Metadata.key -u-* Metadata
+Metadata.value -u-* Metadata
+
+Query "0,*" -d- "1,1" Result
+Query "0,*" -d- "1,1" Source
+Query "0,*" -d- "1,1" User
+Query "0,*" -- "1,1" Role
+Source "1.1" -d- "0,*" Scraper
+Scraper "1,1" -d- "0,*" ScraperInstance
+Message "0,*" -u- "1,1" ScraperInstance
+Metadata "0,*" -u- "1,1" Message
 
 @enduml
 
@@ -95,11 +136,35 @@ entity Source {
   key: int
 }
 
-Query "0,*" -r- "1,1" Source 
-Query "0,*" -- "1,1" Result 
+entity Scraper {
+  id: int
+  type: text
+}
+
+entity ScraperInstance {
+  id: int
+  data: text
+  flag: uri-reference
+}
+
+entity Message {
+  id: int
+  data: text
+}
+
+entity Metadata {
+  id: int
+  key: int
+  value: text
+}
+
+Query "0,*" -- "1,1" Source 
+Query "0,*" -r- "1,1" Result 
 User "1,1" -u- "0,*" Query 
-Role "1,1" -l- "0,*" Query
+Role "1,1" -r- "0,*" Query
+Source "1,1" -- "0,*" Scraper
+Scraper "1,1" -- "0,*" ScraperInstance
+ScraperInstance "1,1" -- "0,*" Message
+Message "1,1" -- "0,*" Metadata
 
 @enduml
-
-
