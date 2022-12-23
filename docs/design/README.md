@@ -18,6 +18,8 @@ Query.description --* Query
 Query.name --* Query 
 Query.modified --* Query 
 
+entity Access
+
 entity User
 entity User.id
 entity User.login
@@ -88,10 +90,11 @@ Metadata.id -u-* Metadata
 Metadata.key -u-* Metadata
 Metadata.value -u-* Metadata
 
+Query "0,*" -d- "0,*" Access
 Query "0,*" -d- "1,1" Result
 Query "0,*" -d- "1,1" Source
-Query "0,*" -d- "1,1" User
-Query "0,*" -- "1,1" Role
+Access "0,*" -d- "1,1" User
+Access "0,*" -- "1,1" Role
 Source "1.1" -d- "0,*" Scraper
 Scraper "1,1" -d- "0,*" ScraperInstance
 Message "0,*" -u- "1,1" ScraperInstance
@@ -141,6 +144,8 @@ entity Scraper {
   type: text
 }
 
+entity Access {}
+
 entity ScraperInstance {
   id: int
   data: text
@@ -158,10 +163,11 @@ entity Metadata {
   value: text
 }
 
+Query "0,*" -l- "0,*" Access 
 Query "0,*" -- "1,1" Source 
 Query "0,*" -r- "1,1" Result 
-User "1,1" -u- "0,*" Query 
-Role "1,1" -r- "0,*" Query
+User "1,1" -u- "0,*" Access 
+Role "1,1" -r- "0,*" Access
 Source "1,1" -- "0,*" Scraper
 Scraper "1,1" -- "0,*" ScraperInstance
 ScraperInstance "1,1" -- "0,*" Message
