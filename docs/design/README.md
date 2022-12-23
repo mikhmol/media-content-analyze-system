@@ -12,6 +12,13 @@ entity Query.description
 entity Query.name
 entity Query.modified
 
+
+Query.created --* Query 
+Query.id --* Query 
+Query.description --* Query
+Query.name --* Query 
+Query.modified --* Query 
+
 entity Access
 
 entity User
@@ -20,20 +27,37 @@ entity User.login
 entity User.password
 entity User.email
 
+User.id -u-* User 
+User.login -u-* User 
+User.password -r-* User 
+User.email --* User 
+
 entity Result
 entity Result.id
 entity Result.name
 entity Result.description
+
+Result.id --* Result 
+Result.name --* Result 
+Result.description -l-* Result
 
 entity Role
 entity Role.id
 entity Role.name
 entity Role.description
 
+Role.id -u-* Role 
+Role.name -u-* Role 
+Role.description -u-* Role
+
 entity Source
 entity Source.url
 entity Source.id
 entity Source.key
+
+Source *-- Source.url 
+Source *-- Source.id 
+Source *-- Source.key
 
 @enduml
 
