@@ -12,14 +12,11 @@ entity Query.description
 entity Query.name
 entity Query.modified
 
-
 Query.created --* Query 
 Query.id --* Query 
 Query.description --* Query
 Query.name --* Query 
 Query.modified --* Query 
-
-entity Access
 
 entity User
 entity User.id
@@ -73,38 +70,35 @@ entity Query {
   modified: datetime
   }
 
-entity Access { }
-
 entity User {
-id: int
-login: text
-name: text
-password: text
+  id: int
+  login: text
+  name: text
+  password: text
 }
 
 entity Result {
-id: int
-name: text
-description: text
+  id: int
+  name: text
+  description: text
 }
 
 entity Role {
-id: int
-name: text
-description: text
+  id: int
+  name: text
+  description: text
 }
 
 entity Source {
-id: int
-url: uri-reference
-key: int
+  id: int
+  url: uri-reference
+  key: int
 }
 
-Query "0,*" -d- "0,*" Access 
 Query "0,*" -r- "1,1" Source 
 Query "0,*" -- "1,1" Result 
-User "1,1" -u- "0,*" Access 
-Role "1,1" -l- "0,*" Access
+User "1,1" -u- "0,*" Query 
+Role "1,1" -l- "0,*" Query
 
 @enduml
 
