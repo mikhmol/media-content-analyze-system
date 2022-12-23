@@ -1,7 +1,7 @@
 # Проєктування бази даних
 
 В рамках проекту розробляється: 
-- модель бізнес-об'єктів 
+## Модель бізнес-об'єктів 
 
 @startuml
 
@@ -36,8 +36,12 @@ entity Source.id
 entity Source.key
 
 @enduml
-- ER-модель
-- entity Query {
+
+## ER-модель
+
+@startuml 
+
+entity Query {
   id: int
   name: text
   description: text
@@ -72,6 +76,12 @@ url: uri-reference
 key: int
 }
 
-Query "0,*" -d- "0,*" Access Query "0,*" -r- "1,1" Source Query "0,*" -- "1,1" Result User "1,1" -u- "0,*" Access Role "1,1" -l- "0,*" Access
-- реляційна схема
+Query "0,*" -d- "0,*" Access 
+Query "0,*" -r- "1,1" Source 
+Query "0,*" -- "1,1" Result 
+User "1,1" -u- "0,*" Access 
+Role "1,1" -l- "0,*" Access
+
+@enduml
+
 
