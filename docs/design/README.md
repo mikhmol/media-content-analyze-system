@@ -5,18 +5,22 @@
 
 @startuml
 
-entity Query
-entity Query.created
-entity Query.id
-entity Query.description
-entity Query.name
-entity Query.modified
+entity Task
+entity Task.createdAt
+entity Task.id
+entity Task.description
+entity Task.name
+entity Task.updatedAt
+entity Task.schedule
+entity Task.state
 
-Query.created --* Query 
-Query.id --* Query 
-Query.description --* Query
-Query.name --* Query 
-Query.modified --* Query 
+Task.createdAt --* Task 
+Task.id --* Task 
+Task.description --* Task
+Task.name --* Task 
+Task.updatedAt --* Task 
+Task.state --* Task 
+Task.schedule --* Task 
 
 entity Access
 
@@ -24,12 +28,12 @@ entity User
 entity User.id
 entity User.login
 entity User.password
-entity User.email
+entity User.name
 
-User.id -u-* User 
-User.login -u-* User 
-User.password -r-* User 
-User.email -u-* User 
+User.id -d-* User 
+User.login -d-* User 
+User.password -d-* User 
+User.name --* User 
 
 entity Result
 entity Result.id
@@ -38,16 +42,18 @@ entity Result.description
 
 Result.id --* Result 
 Result.name --* Result 
-Result.description -l-* Result
+Result.description -r-* Result
 
 entity Role
 entity Role.id
 entity Role.name
 entity Role.description
+entity Role.createdAt
 
 Role.id -u-* Role 
 Role.name -u-* Role 
 Role.description -u-* Role
+Role.createdAt -u-* Role
 
 entity Source
 entity Source.url
@@ -62,8 +68,8 @@ entity Scraper
 entity Scraper.type
 entity Scraper.id
 
-Scraper.type --* Scraper
-Scraper.id --* Scraper
+Scraper.type -u-* Scraper
+Scraper.id -u-* Scraper
 
 entity ScraperInstance
 entity ScraperInstance.id
@@ -71,8 +77,8 @@ entity ScraperInstance.data
 entity ScraperInstance.flag
 
 ScraperInstance.id -l-* ScraperInstance
-ScraperInstance.data --* ScraperInstance
-ScraperInstance.flag --* ScraperInstance
+ScraperInstance.data -u-* ScraperInstance
+ScraperInstance.flag -u-* ScraperInstance
 
 entity Message
 entity Message.id
@@ -90,15 +96,16 @@ Metadata.id -u-* Metadata
 Metadata.key -u-* Metadata
 Metadata.value -u-* Metadata
 
-Query "0,*" -d- "0,*" Access
-Query "0,*" -d- "1,1" Result
-Query "0,*" -d- "1,1" Source
-Access "0,*" -d- "1,1" User
-Access "0,*" -- "1,1" Role
-Source "1.1" -d- "0,*" Scraper
-Scraper "1,1" -d- "0,*" ScraperInstance
-Message "0,*" -u- "1,1" ScraperInstance
-Metadata "0,*" -u- "1,1" Message
+Task "1,1" -- "0,*" Access 
+Task "0,*" -u- "1,1" Source 
+Task "1,1" -- "0,*" Result 
+User "1,1" -- "0,*" Access 
+Role "1,1" -- "0,*" Access
+Task "0,*" -- "1,1" Scraper
+Scraper "1,1" - "0,*" ScraperInstance
+Result "1,1" -- "0,*" Message
+Message "1,1" -- "0,*" Metadata
+Result "0,*" -- "1,1" ScraperInstance
 
 @enduml
 
@@ -106,12 +113,14 @@ Metadata "0,*" -u- "1,1" Message
 
 @startuml 
 
-entity Query {
+entity Task {
   id: int
   name: text
   description: text
-  created: datetime
-  modified: datetime
+  createdAt: datetime
+  updatedAt: datetime
+  state: text "enable", "disable" ...
+  schedule: text CRON formated string
   }
 
 entity User {
@@ -125,6 +134,7 @@ entity Result {
   id: int
   name: text
   description: text
+  createdAt: datetime
 }
 
 entity Role {
@@ -163,14 +173,15 @@ entity Metadata {
   value: text
 }
 
-Query "0,*" -l- "0,*" Access 
-Query "0,*" -- "1,1" Source 
-Query "0,*" -r- "1,1" Result 
-User "1,1" -u- "0,*" Access 
+Task "1,1" -l- "0,*" Access 
+Task "0,*" -u- "1,1" Source 
+Task "1,1" -r- "0,*" Result 
+User "1,1" -- "0,*" Access 
 Role "1,1" -r- "0,*" Access
-Source "1,1" -- "0,*" Scraper
-Scraper "1,1" -- "0,*" ScraperInstance
-ScraperInstance "1,1" -- "0,*" Message
-Message "1,1" -- "0,*" Metadata
+Task "0,*" -- "1,1" Scraper
+Scraper "1,1" - "0,*" ScraperInstance
+Result "1,1" -u- "0,*" Message
+Message "1,1" -u- "0,*" Metadata
+Result "0,*" -- "1,1" ScraperInstance
 
 @enduml
