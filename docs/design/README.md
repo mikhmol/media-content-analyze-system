@@ -31,7 +31,7 @@ entity User.password
 entity User.name
 
 User.id -d-* User 
-User.login -d-* User 
+User.login -d-* User
 User.password -d-* User 
 User.name --* User 
 
