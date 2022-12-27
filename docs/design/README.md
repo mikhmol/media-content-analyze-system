@@ -185,3 +185,10 @@ Message "1,1" -u- "0,*" Metadata
 Result "0,*" -- "1,1" ScraperInstance
 
 @enduml
+
+## Реляційна схема
+
+<p align="center">
+  <img src="./picture/relscheme.png" width="744" title="ER-diagram">
+</p>
+
