@@ -4,19 +4,19 @@
 
 **Запит**
 
-![creating role](./assets/get.jpg)
+![creating role](https://github.com/mikhmol/media-content-analyze-system/blob/master/docs/test/assets/get.jpg?raw=true)
 
 ## Зчитування процесу role по ID GET
 
 **Запит та результат**
 
-![get role](./assets/get2.jpg)
+![get role](https://github.com/mikhmol/media-content-analyze-system/blob/master/docs/test/assets/get2.jpg?raw=true)
 
 ## Оновлення процесу PUT
 
 **Запит**
 
-![update role](./assets/put.jpg)
+![update role](https://github.com/mikhmol/media-content-analyze-system/blob/master/docs/test/assets/put.jpg?raw=true)
 
 **Результат**
 
@@ -26,4 +26,4 @@
 
 **Запит та результат**
 
-![delete role](./assets/delete.jpg)
+![delete role]()
